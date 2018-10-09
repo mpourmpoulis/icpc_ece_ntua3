@@ -24,13 +24,14 @@ int main(){
 		scales[i][(i+11)%12]=true;
 
 	}
-
+	//printf("Song 0\n");
 	long int min_songs = 0;
 	bool flag = true;
 	bool state[12];
 	bool first_song = true;
 	bool first_state[12]; memset(state,true,sizeof(state));
 	string nn[12];
+	int notes = 0;
 	nn[0]="Do";
 	nn[1]="Do#";
 	nn[2]="Re";
@@ -47,28 +48,30 @@ int main(){
 
 		cin >> note;
 		int note_n=0;
+
 		while(nn[note_n] != note) note_n++;
 		
-
+		flag = false;
 		for(int z=0; z<12; z++){
 			state[z] = state[z] && scales[z][note_n];
-		}
-		flag=false;
-		for(int z=0; z<12;z++){
 			flag |= state[z];
 		}
+
 		if(!flag){
 			if(first_song) {
-				memcpy(first_state,state,sizeof(state));
+				memcpy(first_state, state, sizeof(state));
 				first_song = false;
 			}
 			memset(state,true,sizeof(state));
 			min_songs++;
+			notes=0;
 
 			for(int z=0; z<12; z++){
-			state[z] = state[z] && scales[z][note_n];
+				state[z] = state[z] && scales[z][note_n];
 			}
 		}
+		notes++;
+		//cout << note << ",";
 
 	}
 	min_songs++;
@@ -77,7 +80,7 @@ int main(){
 			min_songs--; break;
 		}
 	}
-
+	if(notes < 2) min_songs--;
 	cout << min_songs << endl;
 
 }
@@ -131,3 +134,4 @@ switch (note){
 		}
 
 		*/
+
