@@ -44,9 +44,11 @@ int main(){
 	nn[9]="La";
 	nn[10]="La#";
 	nn[11]="Si";
+	char tmp[10];
 	for(int i=0; i<N; i++){
 
-		cin >> note;
+		scanf("%s\n", &tmp);
+		note = string(tmp);
 		int note_n=0;
 
 		while(nn[note_n] != note) note_n++;
@@ -71,8 +73,6 @@ int main(){
 			}
 		}
 		notes++;
-		//cout << note << ",";
-
 	}
 	min_songs++;
 	for(int z=0;z<12;z++){
