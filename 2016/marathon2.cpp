@@ -70,7 +70,7 @@ class GroupDataStructure{
 			double lhs = v1 - v2; //bug here before
 			double tcol = rhs / lhs;
 			double xcol = x1 + v1 * (tcol-t1);
-			if(tcol < max(t1,t2)) return InvalidTimePlace;
+			if(tcol < max(t1,t2) - 0.00000001) return InvalidTimePlace;
 			return make_pair(tcol,xcol);
 		}
 
@@ -78,6 +78,7 @@ class GroupDataStructure{
 		{
 			id_one = current_group(id_one);
 			id_two = current_group(id_two);
+			if(id_one >=1649 && id_one <= 1651 && id_two >=1649 && id_two <= 1651) cout <<"id "<<id_one <<" "<<id_two<<endl;
 			if(id_one == id_two) return InvalidTimePlace;
 			return compute_colision_t_and_x_raw(x[id_one],v[id_one],t[id_one],x[id_two],v[id_two],t[id_two]);
 		}
@@ -160,8 +161,9 @@ int main()
 	for(int i=0;i<n;i++){
 		Meeting m;
 		m = g.compute_meeting(i,g.get_next_group(i));
-	//	cout<<m<<endl;
+	    if(i == 1651) cout<<"group 1649" << m<<endl;
 		if(g.valid_meeting(m)) q.push(m);
+
 	}
 	//cout<<"queue"<<endl;
 	while(!q.empty()){
@@ -173,16 +175,23 @@ int main()
 			Meeting mnext, mback;
 			mnext = g.compute_meeting(m.id_one,g.get_next_group(m.id_one));
 			mback = g.compute_meeting(m.id_one,g.get_back_group(m.id_one));
-			//cout<<"menxt and mback"<<endl<<mnext<<mback<<endl;
+			if(m.id_one == 1649 || m.id_two == 1649) cout<<"menxt and mback"<<endl<<mnext<<mback<<endl;
 			//if(g.valid_meeting(mnext) && g.valid_meeting(mback)) q.push(min(mnext,mback));
 			 if(g.valid_meeting(mnext)) q.push(mnext);
 			 if(g.valid_meeting(mback)) q.push(mback);
 		}
 	}
+	//Meeting mm = g.compute_meeting(1649,8221);
+	//cout<<mm; //with an endl we have segmentation fault :D
+	//cout<<g.t[1649]<<endl<<g.t[8221]<<endl<<g.v[1649]<<endl<<g.v[8221]<<endl<<g.x[1649]<<endl<<g.x[8221]<<endl;
 	vector<int> groups;
 	for(int i=0;i<n;i++){
-		if(g.current_group(i) == i) groups.push_back(g.k[i]);
+		if(g.current_group(i) == i) {
+			groups.push_back(g.k[i]);
+	//		cout << "surviving is " << i <<" with next group being " << g.get_next_group(i)<<endl;
+		}
 	}
+
 	cout<<groups.size()<<endl;
 	for(int i=0;i<groups.size()-1;i++) cout<<groups[i]<<" ";
 	cout<<groups.back()<<endl;	
