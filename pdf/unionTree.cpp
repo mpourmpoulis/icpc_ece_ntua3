@@ -1,4 +1,14 @@
-#include "unionTree.hpp"
+class UnionTree{
+	public:
+		void init(int numb);
+		bool sameRoot(int x,int y);
+		void unite(int x,int y);
+		int  treePathCompression(int x);
+		int  get_parent(int x);
+	private:
+		int n;
+		std::vector<int> parent,numberOfChildren;
+};
 
 
 void UnionTree::init(int numb)
