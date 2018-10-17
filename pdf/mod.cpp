@@ -68,27 +68,25 @@ inline int gcd(int numb1,int numb2)
 }
  
 
-void CRT_compute_coeff(int p)
+void CRT_compute_coeff(int p, vector<int> &divisor, vector<int> &CRT_coeff)
 {
-	CRT_coeff.resize(Pr);
+	CRT_coeff.clear(); CRT_coeff.resize(divisor.size());
+	int Pr = divisor.size();
 	if(Pr==1) CRT_coeff[0]=1;
-	static int temp2[10];
-	int i,j;
-	for(i=0;i<Pr;i++){
-		temp2[i]=p/divisor[i];
-	}
-	for(i=0;i<Pr;i++){
-		CRT_coeff[i]=temp2[i]*mod_inv(temp2[i],divisor[i]);		
+	for(int i=0;i<Pr;i++){
+		int temp=p/divisor[i];
+		CRT_coeff[i]=temp*mod_inv(temp,divisor[i]);		
 	}	
 }
  
-inline int Chinese_Remainder_Theorem(int *remainder,int p)
+inline int Chinese_Remainder_Theorem(vector<int> &divisor,int p)
 {
-	long long int sum=0,temp;
-	int i;
-	for(i=0;i<Pr;i++){
-		temp=remainder[i];
-		temp*=CRT_coeff[i];
+	long long int sum=0,temp; int Pr=divisor.size();
+	vector<int> CRT_coeff;
+	CRT_compute_coeff(p,divisor,CRT_coeff);
+	for(int i=0;i<Pr;i++){
+		temp = divisor[i];
+		temp *= CRT_coeff[i];
 		sum+=temp;
 	}
 	sum=sum%p;
