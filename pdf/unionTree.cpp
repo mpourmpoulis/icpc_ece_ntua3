@@ -4,7 +4,7 @@ class UnionTree{
 		bool sameRoot(int x,int y);
 		void unite(int x,int y);
 		int  treePathCompression(int x);
-		int  get_parent(int x){
+		int  find(int x){
 			return treePathCompression(x);
 		}
 	private:
